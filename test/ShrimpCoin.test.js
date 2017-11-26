@@ -1,33 +1,29 @@
-/* global describe test expect beforeEach */
+/* global describe test expect beforeEach beforeAll */
 
-import { ShrimpCoin } from 'helpers/contracts'
-/* import moment from 'moment'
+import eth from './helpers/eth'
+import { getShrimpCoin } from 'helpers/contracts'
+
+/*
+TODO: need to get this working with ethjs instead of web3
 import lkTestHelpers from 'lk-test-helpers'
-import { web3 } from 'helpers/w3'
-
 const { increaseTime, latestTime } = lkTestHelpers(web3)
-
-const { accounts } = web3.eth */
+*/
 
 describe('ShrimpCoin', () => {
-  let shrmp
-  beforeEach(async () => {
-    shrmp = await newShrimpCoin()
+  let ShrimpCoin, accounts, shrmp
+
+  beforeAll(async () => {
+    ShrimpCoin = await getShrimpCoin()
+    accounts = await eth.accounts()
+    console.log('accounts: ', accounts)
   })
+
+  beforeEach(async () => {
+    shrmp = await ShrimpCoin.new()
+  })
+
   test('should have a shrimpy symbol', async () => {
-    expect(await shrmp.SYMBOL.call()).toBe('SHRMP')
+    const res = await shrmp.SYMBOL()
+    expect(res[0]).toBe('SHRMP')
   })
 })
-
-async function newShrimpCoin () {
-  const shrmp = await tryAsync(ShrimpCoin.new())
-  return shrmp
-}
-
-async function tryAsync (asyncFn) {
-  try {
-    return await asyncFn
-  } catch (err) {
-    console.error(err)
-  }
-}
