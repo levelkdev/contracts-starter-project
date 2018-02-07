@@ -12,7 +12,7 @@ TestRPC 6: `npm install -g ethereumjs-testrpc`
 
 Then run `npm install`
 
-`chmod +x ./scripts` to grant execute permissions on the scripts directory
+`chmod +x ./scripts/**` to grant execute permissions on the scripts directory
 
 ### Compile
 
